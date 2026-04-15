@@ -32,3 +32,15 @@
 - Lecture publique des signalements et profiles
 - Création/modification/suppression réservée au propriétaire
 - Une seule confirmation par utilisateur par signalement (contrainte UNIQUE)
+
+## 🌱 Seed (données de test)
+
+Pour avoir 20 signalements de test sur la carte de Paris :
+
+1. Créer un user demo dans Supabase Authentication > Users > Add user :
+   - Email : `demo@notworking.fr`
+   - Password : `demo123456`
+   - Auto Confirm User : ✅
+2. Récupérer l'UID du user créé
+3. Ouvrir `seed.sql`, remplacer `COLLE_TON_UID_ICI` par l'UID
+4. Exécuter le script dans le SQL Editor de Supabase
