@@ -1,4 +1,4 @@
-import { Container } from '../ui/Container'
+import { Container } from '../components/ui/Container'
 
 export const Footer = () => (
   <footer className="bg-ink-900 text-white py-16">
@@ -16,14 +16,14 @@ export const Footer = () => (
           <ul className="space-y-2 text-sm text-white/60">
             <li>Carte</li>
             <li>Signaler</li>
-            <li>Catégories</li>
+            <li>Categories</li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-medium mb-4 text-sm">Équipe</h4>
+          <h4 className="font-medium mb-4 text-sm">Equipe</h4>
           <ul className="space-y-2 text-sm text-white/60">
-            <li>Maël Barbe</li>
+            <li>Mael Barbe</li>
             <li>Hugo</li>
             <li>Elisei</li>
           </ul>
@@ -39,7 +39,7 @@ export const Footer = () => (
       </div>
 
       <div className="mt-12 pt-8 border-t border-white/10 text-sm text-white/40">
-        © 2026 Not Working. Projet étudiant EFREI B2.
+        © 2026 Not Working. Projet etudiant EFREI B2.
       </div>
     </Container>
   </footer>
