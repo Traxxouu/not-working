@@ -6,8 +6,8 @@ Pour améliorer l'accessibilité au quotidien.
 ## 👥 Équipe
 
 - **Maël Barbe** — Setup, base de données, authentification, service layer
-- **Hugo [Nom]** — Système de confirmation des pannes
-- **Elisei [Nom]** — Design et composants UI
+- **Hugo Tchen** — Système de confirmation des pannes
+- **Elisei Jurgiu** — Design et composants UI
 - **Hugo & Elisei** — Intégration CRUD frontend
 
 ## 🛠️ Stack technique
