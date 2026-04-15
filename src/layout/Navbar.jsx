@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Button } from '../ui/Button'
-import { Container } from '../ui/Container'
+import { Button } from '../components/ui/Button'
+import { Container } from '../components/ui/Container'
 
 export const Navbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-ink-900/5">
@@ -19,7 +19,7 @@ export const Navbar = () => (
         </Link>
 
         <Link to="/about" className="hover:text-primary-600 transition-colors">
-          À propos
+          A propos
         </Link>
 
         <Link to="/login">
