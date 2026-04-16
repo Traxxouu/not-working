@@ -8,16 +8,14 @@ export const Navbar = () => {
   const navigate = useNavigate()
   const { isAuthenticated, profile, loading } = useAuth()
 
-    const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
-        await signOut()
-        navigate('/')
+      await signOut()
     } catch (err) {
-        console.error('Erreur logout:', err)
-        // Force la redirection même si erreur
-        navigate('/')
+      console.error('Erreur logout:', err)
     }
-    }
+    navigate('/')
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-ink-900/5">
@@ -33,22 +31,18 @@ export const Navbar = () => {
             <div className="w-20 h-8 bg-ink-900/5 rounded-full animate-pulse" />
           ) : isAuthenticated ? (
             <div className="flex items-center gap-4">
-              <Link 
-                to="/profile" 
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-              >
+              <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm font-semibold">
                   {profile?.username?.[0]?.toUpperCase() || '?'}
                 </div>
                 <span className="text-sm font-medium">{profile?.username || 'Profil'}</span>
               </Link>
-              <Button 
-                variant="ghost" 
-                size="sm"
+              <button 
                 onClick={handleLogout}
+                className="text-sm text-ink-700 hover:text-ink-900 transition-colors px-3 py-1.5 rounded-full hover:bg-ink-900/5"
               >
                 Se déconnecter
-              </Button>
+              </button>
             </div>
           ) : (
             <Link to="/login">

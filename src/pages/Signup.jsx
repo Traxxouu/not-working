@@ -8,11 +8,7 @@ export const Signup = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-  })
+  const [form, setForm] = useState({ username: '', email: '', password: '' })
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -23,16 +19,12 @@ export const Signup = () => {
     e.preventDefault()
     setLoading(true)
     setError(null)
-
     const { error } = await signUp(form.email, form.password, form.username)
-
     if (error) {
       setError(error.message || 'Une erreur est survenue')
       setLoading(false)
       return
     }
-
-    // Inscription réussie → redirection vers la carte
     navigate('/map')
   }
 
@@ -42,12 +34,11 @@ export const Signup = () => {
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
           <h1 className="font-serif text-4xl mb-2">Rejoignez-nous.</h1>
           <p className="text-ink-700 mb-8">Créez votre compte en 30 secondes.</p>
-          
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium mb-2">Pseudo</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="username"
                 value={form.username}
                 onChange={handleChange}
@@ -59,8 +50,8 @@ export const Signup = () => {
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">Email</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
@@ -71,8 +62,8 @@ export const Signup = () => {
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">Mot de passe</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 name="password"
                 value={form.password}
                 onChange={handleChange}
@@ -82,24 +73,15 @@ export const Signup = () => {
                 placeholder="6 caractères minimum"
               />
             </div>
-
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">
                 {error}
               </div>
             )}
-
-            <Button 
-              type="submit" 
-              variant="primary" 
-              size="lg" 
-              className="w-full justify-center"
-              disabled={loading}
-            >
+            <Button type="submit" variant="primary" size="lg" className="w-full justify-center" disabled={loading}>
               {loading ? 'Création en cours...' : 'Créer mon compte →'}
             </Button>
           </form>
-
           <p className="text-center text-sm text-ink-700 mt-6">
             Déjà un compte ?{' '}
             <Link to="/login" className="text-ink-900 font-medium hover:underline">
