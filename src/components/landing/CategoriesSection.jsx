@@ -1,55 +1,199 @@
 import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
+import { useCallback, useState } from 'react'
 import { Container } from '../ui/Container'
 
 const categories = [
-  { name: 'Ascenseurs', image: 'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&q=80' },
-  { name: 'Escalators', image: 'https://images.unsplash.com/photo-1565967511849-76a60a516170?w=600&q=80' },
-  { name: 'Portes auto', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
-  { name: 'Distributeurs', image: 'https://images.unsplash.com/photo-1556742111-a301076d9d18?w=600&q=80' },
-  { name: 'Bornes recharge', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&q=80' },
-  { name: 'Horodateurs', image: 'https://images.unsplash.com/photo-1597007030739-6d2e7172ee6c?w=600&q=80' },
-  { name: 'Éclairage', image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80' },
-  { name: 'Interphones', image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=600&q=80' },
-  { name: 'Bornes info', image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80' },
+  { 
+    name: 'Ascenseurs', 
+    description: 'Pannes dans le métro et bâtiments publics',
+    image: '/categories/ascenseur.png',
+    color: 'from-blue-500 to-blue-700',
+  },
+  { 
+    name: 'Escalators', 
+    description: 'Escalators mécaniques hors service',
+    image: '/categories/escalator.png',
+    color: 'from-purple-500 to-purple-700',
+  },
+  { 
+    name: 'Portes auto', 
+    description: 'Portes automatiques bloquées',
+    image: '/categories/porte.png',
+    color: 'from-indigo-500 to-indigo-700',
+  },
+  { 
+    name: 'Distributeurs', 
+    description: 'Distributeurs de billets en panne',
+    image: '/categories/distributeur.png',
+    color: 'from-emerald-500 to-emerald-700',
+  },
+  { 
+    name: 'Bornes recharge', 
+    description: 'Bornes pour véhicules électriques',
+    image: '/categories/borne-recharge.png',
+    color: 'from-amber-500 to-amber-700',
+  },
+  { 
+    name: 'Horodateurs', 
+    description: 'Bornes de paiement stationnement',
+    image: '/categories/horodateur.png',
+    color: 'from-red-500 to-red-700',
+  },
+  { 
+    name: 'Éclairage', 
+    description: 'Lampadaires et éclairage urbain',
+    image: '/categories/eclairage.png',
+    color: 'from-yellow-400 to-yellow-600',
+  },
+  { 
+    name: 'Interphones', 
+    description: 'Interphones et accès immeubles',
+    image: '/categories/interphone.png',
+    color: 'from-cyan-500 to-cyan-700',
+  },
+  { 
+    name: 'Bornes info', 
+    description: 'Bornes d\'information touristique',
+    image: '/categories/borne-info.png',
+    color: 'from-slate-500 to-slate-700',
+  },
 ]
 
 export const CategoriesSection = () => {
-  const [emblaRef] = useEmblaCarousel({
-    loop: true,
-    align: 'start',
-    slidesToScroll: 1,
-  })
+  const [isPaused, setIsPaused] = useState(false)
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'start', dragFree: true },
+    [Autoplay({ 
+      delay: 3000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+      playOnInit: true,
+    })]
+  )
+
+  const scrollPrev = useCallback(() => {
+    if (!emblaApi) return
+    emblaApi.scrollPrev()
+    const autoplay = emblaApi.plugins().autoplay
+    if (autoplay && !isPaused) autoplay.reset()
+  }, [emblaApi, isPaused])
+
+  const scrollNext = useCallback(() => {
+    if (!emblaApi) return
+    emblaApi.scrollNext()
+    const autoplay = emblaApi.plugins().autoplay
+    if (autoplay && !isPaused) autoplay.reset()
+  }, [emblaApi, isPaused])
+
+  const toggleAutoplay = useCallback(() => {
+    if (!emblaApi) return
+    const autoplay = emblaApi.plugins().autoplay
+    if (!autoplay) return
+    if (isPaused) {
+      autoplay.play()
+      setIsPaused(false)
+    } else {
+      autoplay.stop()
+      setIsPaused(true)
+    }
+  }, [emblaApi, isPaused])
 
   return (
-    <section className="py-24 md:py-32 bg-cream">
+    <section className="py-24 md:py-32 bg-cream overflow-hidden">
       <Container>
-        <h2 className="font-serif text-4xl md:text-5xl mb-12">
-          Catégories d'équipements
-        </h2>
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
+          <div className="max-w-2xl">
+            <p className="text-sm uppercase tracking-widest text-ink-700 mb-4">
+              9 catégories · Paris
+            </p>
+            <h2 className="font-serif text-4xl md:text-6xl leading-[1.05] tracking-tight mb-4">
+              Tous les équipements <span className="italic">publics.</span>
+            </h2>
+            <p className="text-ink-700 text-lg">
+              Du métro au mobilier urbain, signalez n'importe quelle panne en quelques secondes.
+            </p>
+          </div>
+        </div>
       </Container>
 
+      {/* Carrousel */}
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex gap-6 px-4 sm:px-6 lg:px-8 pb-4">
           {categories.map((cat) => (
             <div
               key={cat.name}
-              className="flex-[0_0_280px] aspect-square rounded-2xl overflow-hidden relative group cursor-pointer"
+              className="flex-[0_0_320px] md:flex-[0_0_360px] group cursor-pointer"
             >
-              <img
-                src={cat.image}
-                alt={cat.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover"
-              />
+              <div className={`relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br ${cat.color} shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2`}>
+                
+                {/* Pattern de fond subtil */}
+                <div className="absolute inset-0 opacity-20" style={{
+                  backgroundImage: 'radial-gradient(circle at 30% 20%, white 1px, transparent 1px)',
+                  backgroundSize: '24px 24px',
+                }} />
 
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-white font-serif text-xl">
-                  {cat.name}
-                </h3>
+                {/* Zone image 3D (quand tu les auras) */}
+                <div className="absolute inset-0 flex items-center justify-center p-8">
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700"
+                    onError={(e) => { e.target.style.display = 'none' }}
+                  />
+                </div>
+
+                {/* Overlay gradient bas pour lisibilité texte */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                {/* Texte */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-serif text-2xl md:text-3xl mb-2">
+                    {cat.name}
+                  </h3>
+                  <p className="text-white/80 text-sm leading-snug">
+                    {cat.description}
+                  </p>
+                </div>
+
+                {/* Petit indicateur "en coin" */}
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white text-lg group-hover:bg-white group-hover:text-ink-900 transition-colors">
+                  →
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Contrôles du carrousel */}
+      <Container>
+        <div className="flex items-center justify-center gap-3 mt-12">
+          <button
+            onClick={scrollPrev}
+            className="w-12 h-12 rounded-full bg-white border border-ink-900/10 hover:bg-ink-900 hover:text-white hover:border-ink-900 transition-colors flex items-center justify-center"
+            aria-label="Précédent"
+          >
+            ←
+          </button>
+          <button
+            onClick={toggleAutoplay}
+            className="px-5 h-12 rounded-full bg-white border border-ink-900/10 hover:bg-ink-900 hover:text-white hover:border-ink-900 transition-colors text-sm font-medium flex items-center gap-2"
+            aria-label={isPaused ? 'Reprendre' : 'Pause'}
+          >
+            {isPaused ? '▶ Reprendre' : '⏸ Pause'}
+          </button>
+          <button
+            onClick={scrollNext}
+            className="w-12 h-12 rounded-full bg-white border border-ink-900/10 hover:bg-ink-900 hover:text-white hover:border-ink-900 transition-colors flex items-center justify-center"
+            aria-label="Suivant"
+          >
+            →
+          </button>
+        </div>
+      </Container>
     </section>
   )
 }
