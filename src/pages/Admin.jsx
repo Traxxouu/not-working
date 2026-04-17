@@ -32,23 +32,23 @@ export const Admin = () => {
   const [filterCategory, setFilterCategory] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
 
-  const loadData = async () => {
+    const loadData = async () => {
     setLoading(true)
     try {
-      const [reportsRes, statsRes, usersRes] = await Promise.all([
+        const [reportsRes, statsRes, usersRes] = await Promise.all([
         getAllReports(),
         getStats(),
         supabase.from('profiles').select('*').order('created_at', { ascending: false })
-      ])
-      setReports(reportsRes.data || [])
-      setStats(statsRes)
-      setUsers(usersRes.data || [])
+        ])
+        setReports(reportsRes.data || [])
+        setStats(statsRes)
+        setUsers(usersRes.data || [])
     } catch (err) {
-      console.error('Erreur chargement admin:', err)
+        console.error('Erreur chargement admin:', err)
     } finally {
-      setLoading(false)
+        setLoading(false)
     }
-  }
+    }
 
   useEffect(() => {
     if (!authLoading && (!isAuthenticated || profile?.role !== 'admin')) {
