@@ -76,7 +76,7 @@ export const MapPage = () => {
       </div>
 
       {/* Barre de recherche flottante en haut */}
-      <div className="absolute top-4 left-4 right-4 z-[1000] md:left-6 md:right-auto md:w-96">
+      <div className="absolute top-4 left-4 right-4 z-30 md:left-6 md:right-auto md:w-96">
         <div className="bg-white rounded-2xl shadow-lg border border-ink-900/5">
           <div className="relative">
             <input
@@ -139,7 +139,7 @@ export const MapPage = () => {
       {/* Bouton flottant "+ Signaler" */}
       <Link
         to="/report/new"
-        className="absolute bottom-24 right-6 z-[1000] md:bottom-8 flex items-center gap-2 bg-ink-900 text-white px-5 py-3.5 rounded-full shadow-2xl hover:bg-ink-800 transition-all hover:scale-105 font-medium text-sm"
+        className="absolute bottom-24 right-6 z-30 md:bottom-8 flex items-center gap-2 bg-ink-900 text-white px-5 py-3.5 rounded-full shadow-2xl hover:bg-ink-800 transition-all hover:scale-105 font-medium text-sm"
       >
         <span className="text-lg">+</span>
         <span>Signaler</span>
@@ -147,7 +147,7 @@ export const MapPage = () => {
 
       {/* Bottom Sheet */}
       <div
-        className={`absolute left-0 right-0 bottom-0 z-[999] bg-white rounded-t-3xl shadow-2xl transition-transform duration-300 ease-out ${sheetHeights[sheetHeight]}`}
+        className={`absolute left-0 right-0 bottom-0 z-20 bg-white rounded-t-3xl shadow-2xl transition-transform duration-300 ease-out ${sheetHeights[sheetHeight]}`}
         style={{ height: '85vh' }}
       >
         {/* Handle (poignée) */}

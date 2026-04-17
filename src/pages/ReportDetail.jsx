@@ -41,7 +41,7 @@ const formatDate = (dateString) => {
 export const ReportDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { user, isAuthenticated } = useAuth()
+  const { user, profile, isAuthenticated } = useAuth()
   const [report, setReport] = useState(null)
   const [loading, setLoading] = useState(true)
   const [confirmed, setConfirmed] = useState(false)
@@ -284,28 +284,32 @@ export const ReportDetail = () => {
           </div>
 
           {/* Actions propriétaire */}
-          {isOwner && (
-            <div className="border-t border-ink-900/5 p-8 md:p-12">
-              <h3 className="font-serif text-lg mb-4">Actions (vous êtes le créateur)</h3>
+          {(isOwner || profile?.role === 'admin') && (
+          <div className="border-t border-ink-900/5 p-8 md:p-12">
+            <h3 className="font-serif text-lg mb-4">
+              {profile?.role === 'admin' ? 'Actions administrateur' : 'Vos actions'}
+            </h3>
               <div className="flex flex-wrap gap-3">
-                {report.status === 'en_panne' ? (
-                  <Button 
-                    variant="accent" 
-                    size="md"
-                    onClick={handleResolve}
-                    disabled={actionLoading}
-                  >
-                    ✅ Marquer comme résolu
-                  </Button>
-                ) : (
-                  <Button 
-                    variant="primary" 
-                    size="md"
-                    onClick={handleBroken}
-                    disabled={actionLoading}
-                  >
-                    🔴 Remettre en panne
-                  </Button>
+                {profile?.role === 'admin' && (
+                  report.status === 'en_panne' ? (
+                    <Button 
+                      variant="accent" 
+                      size="md"
+                      onClick={handleResolve}
+                      disabled={actionLoading}
+                    >
+                      ✅ Marquer comme résolu
+                    </Button>
+                  ) : (
+                    <Button 
+                      variant="primary" 
+                      size="md"
+                      onClick={handleBroken}
+                      disabled={actionLoading}
+                    >
+                      🔴 Remettre en panne
+                    </Button>
+                  )
                 )}
                 <button
                   onClick={handleDelete}
