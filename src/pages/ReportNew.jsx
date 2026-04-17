@@ -179,13 +179,19 @@ export const ReportNew = () => {
             </div>
           )}
 
-          {/* ÉTAPE 3 : Position sur la carte */}
-          {step === 3 && (
+            {/* ÉTAPE 3 : Position sur la carte */}
+            {step === 3 && (
             <div className="space-y-5">
-              <LocationPicker 
+                <LocationPicker 
                 position={form.position} 
-                setPosition={(pos) => setForm({ ...form, position: pos })} 
-              />
+                setPosition={(pos) => setForm({ ...form, position: pos })}
+                onAddressFound={(address) => {
+                    // Si le user n'a pas précisé de lieu à l'étape 2, on auto-remplit
+                    if (!form.location_name || form.location_name.length < 3) {
+                    setForm(prev => ({ ...prev, location_name: address }))
+                    }
+                }}
+                />
 
               {form.position ? (
                 <div className="bg-primary-50 border border-primary-500/20 rounded-xl px-4 py-3 text-sm">

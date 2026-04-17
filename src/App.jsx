@@ -6,6 +6,8 @@ import { Signup } from './pages/Signup'
 import { MapPage } from './pages/MapPage'
 import { ReportNew } from './pages/ReportNew'
 import { About } from './pages/About'
+import { Profile } from './pages/Profile'
+import { ReportDetail } from './pages/ReportDetail'
 import { NotFound } from './pages/NotFound'
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route path="/map" element={<MapPage />} />
           <Route path="/report/new" element={<ReportNew />} />
           <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/report/:id" element={<ReportDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
