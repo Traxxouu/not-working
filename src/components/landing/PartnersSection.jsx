@@ -4,37 +4,37 @@ const partners = [
   {
     name: 'RATP',
     description: 'Partenariat stratégique pour synchroniser les pannes des ascenseurs et escalators du métro parisien en temps réel. Nos signalements citoyens remontent directement à leurs équipes techniques.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/RATP_2023.svg/320px-RATP_2023.svg.png',
+    logo: '/partenaires/RATP.svg',
     align: 'left',
   },
   {
     name: 'SNCF',
     description: 'Intégration avec les gares d\'Île-de-France pour couvrir les RER et Transiliens. Gare du Nord, Gare de Lyon, Saint-Lazare : tous les équipements accessibles référencés sur notre carte.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/SNCF.svg/320px-SNCF.svg.png',
+    logo: '/partenaires/sncf.svg.png',
     align: 'right',
   },
   {
     name: 'Île-de-France Mobilités',
     description: 'Autorité organisatrice des transports franciliens. Partenaire clé pour unifier les données d\'accessibilité de tous les opérateurs de transport de la région.',
-    logo: 'https://upload.wikimedia.org/wikipedia/fr/thumb/a/a5/Logo_%C3%8Ele-de-France_Mobilit%C3%A9s.svg/320px-Logo_%C3%8Ele-de-France_Mobilit%C3%A9s.svg.png',
+    logo: '/partenaires/idf.jpg',
     align: 'left',
   },
   {
     name: 'Ville de Paris',
     description: 'Collaboration avec la Mairie de Paris pour les équipements municipaux : éclairage public, horodateurs, mobilier urbain. Accès privilégié à l\'open data parisien.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Logo_Paris_2024.svg/320px-Logo_Paris_2024.svg.png',
+    logo: '/partenaires/VDP.svg',
     align: 'right',
   },
   {
     name: 'APF France Handicap',
     description: 'Association partenaire pour garantir que l\'application réponde aux vrais besoins des personnes à mobilité réduite. Co-construction des fonctionnalités avec les concernés.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Logo_APF_France_handicap.svg/320px-Logo_APF_France_handicap.svg.png',
+    logo: '/partenaires/APF.svg',
     align: 'left',
   },
   {
     name: 'Belib\' Paris',
     description: 'Réseau officiel de bornes de recharge électriques parisiennes. Signalement temps réel des bornes en panne pour les conducteurs de véhicules électriques.',
-    logo: 'https://upload.wikimedia.org/wikipedia/fr/thumb/2/26/Logo_Belib%27.svg/320px-Logo_Belib%27.svg.png',
+    logo: '/partenaires/Belib.png',
     align: 'right',
   },
 ]
