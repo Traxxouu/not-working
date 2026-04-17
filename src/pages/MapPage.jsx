@@ -27,11 +27,18 @@ export const MapPage = () => {
   const [filterStatus, setFilterStatus] = useState(null)
 
   const loadReports = async () => {
-      setLoading(true)
-      const { data } = await getAllReports()
+    setLoading(true)
+    try {
+      const { data, error } = await getAllReports()
+      if (error) console.error('Erreur chargement reports:', error)
       setReports(data || [])
+    } catch (err) {
+      console.error('Exception chargement reports:', err)
+      setReports([])
+    } finally {
       setLoading(false)
     }
+  }
 
     useEffect(() => {
         loadReports()

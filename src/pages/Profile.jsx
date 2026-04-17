@@ -69,9 +69,11 @@ export const Profile = () => {
         getUserConfirmationsCount(user.id)
       ])
       setReports(reportsRes.data || [])
-      setConfirmationsCount(confirmRes.count)
+      setConfirmationsCount(confirmRes.count || 0)
     } catch (err) {
       console.error('Erreur chargement profil:', err)
+      setReports([])
+      setConfirmationsCount(0)
     } finally {
       setLoading(false)
     }

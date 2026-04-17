@@ -16,60 +16,59 @@ const fetchProfile = async (userId) => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [state, setState] = useState({
+    user: null,
+    profile: null,
+    loading: true,
+    isAuthenticated: false,
+  })
 
   useEffect(() => {
-    let isMounted = true
+    let mounted = true
 
-    // Timeout de sécurité
+    // Force stop loading après 2s quoi qu'il arrive
     const timeout = setTimeout(() => {
-      if (isMounted) setLoading(false)
+      if (mounted) setState(prev => ({ ...prev, loading: false }))
     }, 2000)
 
-    // Init session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!isMounted) return
-      const currentUser = session?.user ?? null
-      setUser(currentUser)
-      if (currentUser) {
-        const p = await fetchProfile(currentUser.id)
-        if (isMounted) setProfile(p)
-      }
+      if (!mounted) return
       clearTimeout(timeout)
-      if (isMounted) setLoading(false)
+      const u = session?.user ?? null
+      const p = u ? await fetchProfile(u.id) : null
+      if (mounted) {
+        setState({ user: u, profile: p, loading: false, isAuthenticated: !!u })
+      }
     }).catch(() => {
-      if (isMounted) setLoading(false)
+      if (mounted) {
+        clearTimeout(timeout)
+        setState({ user: null, profile: null, loading: false, isAuthenticated: false })
+      }
     })
 
-    // Listener auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (!isMounted) return
-        if (event === 'TOKEN_REFRESHED') return
+        if (!mounted) return
+        // IGNORER tout sauf login/logout
+        if (event !== 'SIGNED_IN' && event !== 'SIGNED_OUT') return
 
-        const currentUser = session?.user ?? null
-        setUser(currentUser)
-
-        if (currentUser) {
-          const p = await fetchProfile(currentUser.id)
-          if (isMounted) setProfile(p)
-        } else {
-          setProfile(null)
+        const u = session?.user ?? null
+        const p = u ? await fetchProfile(u.id) : null
+        if (mounted) {
+          setState({ user: u, profile: p, loading: false, isAuthenticated: !!u })
         }
       }
     )
 
     return () => {
-      isMounted = false
+      mounted = false
       clearTimeout(timeout)
       subscription.unsubscribe()
     }
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={state}>
       {children}
     </AuthContext.Provider>
   )
