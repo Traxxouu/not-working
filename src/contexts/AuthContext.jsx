@@ -4,18 +4,13 @@ import { AuthContext } from './auth-context'
 
 const fetchProfile = async (userId) => {
   try {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .single()
-    if (error) {
-      console.error('Erreur récupération profile:', error)
-      return null
-    }
     return data
-  } catch (err) {
-    console.error('Erreur fetchProfile:', err)
+  } catch {
     return null
   }
 }
@@ -28,35 +23,38 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let isMounted = true
 
-    const safetyTimeout = setTimeout(() => {
+    // Timeout de sécurité
+    const timeout = setTimeout(() => {
       if (isMounted) setLoading(false)
-    }, 3000)
+    }, 2000)
 
-    supabase.auth.getSession()
-      .then(async ({ data: { session } }) => {
-        if (!isMounted) return
-        setUser(session?.user ?? null)
-        if (session?.user) {
-          const userProfile = await fetchProfile(session.user.id)
-          if (isMounted) setProfile(userProfile)
-        }
-        if (isMounted) {
-          clearTimeout(safetyTimeout)
-          setLoading(false)
-        }
-      })
-      .catch((err) => {
-        console.error('Erreur getSession:', err)
-        if (isMounted) setLoading(false)
-      })
+    // Init session
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!isMounted) return
+      const currentUser = session?.user ?? null
+      setUser(currentUser)
+      if (currentUser) {
+        const p = await fetchProfile(currentUser.id)
+        if (isMounted) setProfile(p)
+      }
+      clearTimeout(timeout)
+      if (isMounted) setLoading(false)
+    }).catch(() => {
+      if (isMounted) setLoading(false)
+    })
 
+    // Listener auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
         if (!isMounted) return
-        setUser(session?.user ?? null)
-        if (session?.user) {
-          const userProfile = await fetchProfile(session.user.id)
-          if (isMounted) setProfile(userProfile)
+        if (event === 'TOKEN_REFRESHED') return
+
+        const currentUser = session?.user ?? null
+        setUser(currentUser)
+
+        if (currentUser) {
+          const p = await fetchProfile(currentUser.id)
+          if (isMounted) setProfile(p)
         } else {
           setProfile(null)
         }
@@ -65,20 +63,13 @@ export const AuthProvider = ({ children }) => {
 
     return () => {
       isMounted = false
-      clearTimeout(safetyTimeout)
+      clearTimeout(timeout)
       subscription.unsubscribe()
     }
   }, [])
 
-  const value = {
-    user,
-    profile,
-    loading,
-    isAuthenticated: !!user,
-  }
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, profile, loading, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   )

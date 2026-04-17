@@ -9,8 +9,6 @@ import {
   getReportsByUser,
   getUserConfirmationsCount,
   deleteReport,
-  markAsResolved,
-  markAsBroken,
   signOut
 } from '../services'
 
@@ -99,21 +97,6 @@ export const Profile = () => {
     }
   }
 
-  const handleToggleStatus = async (report) => {
-    if (report.status === 'en_panne') {
-      const { error } = await markAsResolved(report.id)
-      if (!error) {
-        toast.success('Marqué comme résolu ✅')
-        loadData()
-      }
-    } else {
-      const { error } = await markAsBroken(report.id)
-      if (!error) {
-        toast.success('Marqué comme en panne')
-        loadData()
-      }
-    }
-  }
 
   const handleLogout = async () => {
     try {
@@ -136,7 +119,7 @@ export const Profile = () => {
   const resolvedCount = reports.filter(r => r.status === 'resolu').length
   const activeCount = reports.filter(r => r.status === 'en_panne').length
   const totalConfirmations = reports.reduce((acc, r) => acc + (r.confirmations_count || 0), 0)
-  const points = (reports.length * 2) + (confirmationsCount * 1) + (resolvedCount * 3)
+  const points = (reports.length * 2) + (confirmationsCount * 1)
   const levelInfo = getLevel(points)
   const progressPercent = Math.min(100, ((points - levelInfo.min) / (levelInfo.max - levelInfo.min)) * 100)
   const badges = getBadges(reports.length, confirmationsCount, resolvedCount)
@@ -358,16 +341,6 @@ export const Profile = () => {
                     {/* Actions */}
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <button
-                        onClick={() => handleToggleStatus(report)}
-                        className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                          report.status === 'en_panne'
-                            ? 'border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white'
-                            : 'border-red-500 text-red-500 hover:bg-red-500 hover:text-white'
-                        }`}
-                      >
-                        {report.status === 'en_panne' ? '✅ Résoudre' : '🔴 En panne'}
-                      </button>
-                      <button
                         onClick={() => handleDelete(report.id)}
                         className="text-xs px-3 py-1.5 rounded-full border border-ink-900/10 text-ink-700 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-colors"
                       >
@@ -397,13 +370,6 @@ export const Profile = () => {
               <div>
                 <p className="font-medium text-sm">Confirmer une panne</p>
                 <p className="text-xs text-ink-700 mt-1">+1 point par confirmation donnée</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4 p-4 rounded-2xl bg-cream">
-              <span className="text-2xl">✅</span>
-              <div>
-                <p className="font-medium text-sm">Résoudre une panne</p>
-                <p className="text-xs text-ink-700 mt-1">+3 points par panne résolue</p>
               </div>
             </div>
           </div>

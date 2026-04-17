@@ -7,6 +7,7 @@ import { MapPage } from './pages/MapPage'
 import { ReportNew } from './pages/ReportNew'
 import { About } from './pages/About'
 import { Profile } from './pages/Profile'
+import { Admin } from './pages/Admin'
 import { ReportDetail } from './pages/ReportDetail'
 import { NotFound } from './pages/NotFound'
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/report/new" element={<ReportNew />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/report/:id" element={<ReportDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
