@@ -5,23 +5,25 @@ const reasons = [
     title: 'Accessibilité PMR',
     description:
       'Permettre aux personnes à mobilité réduite de planifier leurs déplacements en toute sérénité.',
+    image: '/pourquoi/pmr.png',
   },
   {
     title: 'Parents avec poussettes',
     description:
       'Eviter les mauvaises surprises et trouver des itinéraires adaptés aux familles.',
+    image: '/pourquoi/poussettes.png',
   },
   {
     title: 'Personnes âgées',
     description:
       'Faciliter la mobilité quotidienne des seniors dans la ville.',
-    image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&q=80',
+    image: '/pourquoi/age.png',
   },
   {
     title: 'Tous les citoyens',
     description:
       'Construire collectivement une ville qui fonctionne pour tout le monde.',
-    image: 'https://images.unsplash.com/photo-1520975916090-3105956dac38?w=600&q=80',
+    image: '/pourquoi/citoyens.png',
   },
 ]
 

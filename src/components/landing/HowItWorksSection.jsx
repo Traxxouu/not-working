@@ -15,11 +15,11 @@ export const HowItWorksSection = () => (
       </h2>
 
       <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div className="aspect-[4/3] bg-cream rounded-2xl overflow-hidden">
+        <div className="aspect-[4/3] bg-cream rounded-2xl overflow-hidden flex items-center justify-center">
           <img
-            src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80"
+            src="/SectionComment/carte.png"
             alt="Carte de Paris"
-            className="w-full h-f"
+            className="w-full h-full object-contain"
           />
         </div>
 
